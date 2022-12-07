@@ -1,11 +1,22 @@
+'''
+Author: xxh
+coding: utf-8
+Date: 2022-09-01 01:55:55
+LastEditTime: 2022-10-27 01:11:50
+FilePath: \PYQT\show_download_ui.py
+'''
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5 import Qt
 from download_ui import Ui_MainWindow
 from download import Download
 from PyQt5 import QtCore
-
-
+from check_file import get_local_file_md5
+from settings import Setting
+import requests
+import os
+import win32con
+import win32api
 class Show_Download_Ui(QMainWindow, Ui_MainWindow):
     """显示下载界面"""
 
@@ -15,6 +26,7 @@ class Show_Download_Ui(QMainWindow, Ui_MainWindow):
         self.setWindowFlags(Qt.Qt.CustomizeWindowHint)          # 去掉QT程序的标题栏
         self.min = 0    # 分
         self.sec = 0    # 秒
+        self.s = Setting()
         self.timer = QtCore.QTimer()
         # 时间对象到时间时触发函数showtime
         self.timer.timeout.connect(self.showtime)
@@ -41,14 +53,39 @@ class Show_Download_Ui(QMainWindow, Ui_MainWindow):
         else:
             self.label_2.setText(_translate(
                 "MainWindow", f"{self.min}:{self.sec}"))
+            
+    def check_download(self):       # 检查下载好的文件是否完整
+        new_file_name = self.s.filename[0]
+        localmd5 = get_local_file_md5(new_file_name)
+        md5 = requests.get(r'http://wanghuoyao.top:9006/md5.txt').text.replace('\n', '')
+        
+        return localmd5 == md5
 
-    def end(self, _):
+    def end(self, _):  # sourcery skip: last-if-guard
         if _:
             self.stoptime()
-            reply = QMessageBox.information(
-                None, "离线更新包下载完成", "离线更新包下载完成，请用本目录下unzip_2.exe 替换本程序", QMessageBox.Yes)
-            if reply == QMessageBox.Yes:
-                sys.exit()
+            if self.check_download():
+                win32api.SetFileAttributes(
+                self.s.filename[1], win32con.FILE_ATTRIBUTE_HIDDEN)      # 隐藏rename.exe文件
+
+                with open(self.s.filename[2], 'w') as f:        # 将当前文件的文件名写入filename.txt
+
+                    f.write(os.path.basename(sys.argv[0]))
+                win32api.SetFileAttributes(
+                self.s.filename[2], win32con.FILE_ATTRIBUTE_HIDDEN)
+
+                win32api.ShellExecute(0, 'open', self.s.filename[1], '', '', 0)     # 后台隐藏运行改名程序
+            else:
+                QMessageBox.information(
+                    None, "离线更新包下载失败", "离线更新包下载失败，请重新运行程序重新下载", QMessageBox.Yes)
+                if os.path.isfile(self.s.filename[0]):
+                    os.remove(self.s.filename[0])
+                if os.path.isfile(self.s.filename[1]):
+                    os.remove(self.s.filename[1])
+
+            sys.exit(0)
+                
+           
 
     def start(self):
         self.download = Download()
@@ -62,6 +99,7 @@ class Show_Download_Ui(QMainWindow, Ui_MainWindow):
     def changelabel_6_text(self, value):    # 修改label数据
         _translate = QtCore.QCoreApplication.translate
         self.label_6.setText(_translate("MainWindow", f'{value}MB'))
+        self.file_size = value
 
     def changelabel_4_text(self, value):
         _translate = QtCore.QCoreApplication.translate

@@ -1,3 +1,10 @@
+'''
+Author: xxh
+coding: utf-8
+Date: 2022-09-01 13:42:53
+LastEditTime: 2022-10-24 15:19:52
+FilePath: \PYQT\download_ui.py
+'''
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'download.ui'
@@ -16,6 +23,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(593, 35)
         MainWindow.setMinimumSize(QtCore.QSize(593, 35))
+        MainWindow.setMaximumSize(QtCore.QSize(593, 35))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)

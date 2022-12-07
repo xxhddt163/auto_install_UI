@@ -1,3 +1,4 @@
+import contextlib
 import sys
 import win32con
 import win32api
@@ -120,7 +121,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
 
             win32api.SetFileAttributes(
                 'last.txt', win32con.FILE_ATTRIBUTE_HIDDEN)      # 隐藏last.txt文件
-            playsound(join(getcwd(), 'run_click.wav'))       # 播放音效声音
+            with contextlib.suppress(Exception):        # 防止文件目录存在中文出错
+                playsound(join(getcwd(), 'run_click.wav'))       # 播放音效声音
             self.check_directory()
             menu_to_file(path=self.path, choose=menu_format(self.choose))
             self.initialValue = len(self.choose)  # 获取用户初始选择的程序数用做进度计算
@@ -137,7 +139,6 @@ class ShowWindow():
     def __init__(self, obj_cls=MainWindow):
         self.app = QApplication(sys.argv)
         self.mainWindow = obj_cls()
-        
 
     def show_window(self):
         self.mainWindow.show()
@@ -149,6 +150,13 @@ class ShowWindow():
 
 if __name__ == "__main__":
     s = Setting()
+    
+    # 如果存在更新留下的缓存文件则删除
+    if isfile(s.filename[1]):
+        remove(s.filename[1])
+    if isfile(s.filename[2]):
+        remove(s.filename[2])
+        
     show = ShowWindow()
     if strftime("%Y%m") == f"{s.year}{s.month}":
         show.show_window()
