@@ -11,6 +11,7 @@ import win32api
 import os
 import traceback
 import sys
+import shutil
 # import time
 
 from PyQt5.QtCore import *
@@ -73,7 +74,12 @@ class New_Thread(QThread):  # 用作执行多线程的类 需要继承QThread类
             zip_file.extract('setup.ico', self.path)
         win32api.SetFileAttributes(os.path.join(
             self.path, 'setup.ico'), win32con.FILE_ATTRIBUTE_HIDDEN)
-
+        
+        if os.path.isfile(os.path.join(os.getcwd(),'auto_install.exe')):    # install文件热替换
+            shutil.copy(os.path.join(os.getcwd(),'auto_install.exe'), os.path.join(self.path, 'auto_install.exe'))
+            win32api.SetFileAttributes(os.path.join(
+            self.path, 'auto_install.exe'), win32con.FILE_ATTRIBUTE_NORMAL)
+            
         zip_file.close()
         self.result = True
         self.finishSignal.emit(str(_))

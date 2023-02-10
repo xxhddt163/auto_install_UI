@@ -7,13 +7,17 @@ FilePath: \PYQT\settings.py
 '''
 class Setting():
     def __init__(self):
-        self.year = "2022"
-        self.month = "12"
+        self.year = "2023"
+        self.month = "01"
         self.host = "wanghuoyao.top"
         self.user = "root"
         self.port = 9003
         self.password = ".,?!920414"
         self.database = "test"
-        self.update_url = ["http://wanghuoyao.top:9006/main_ui.exe", "http://wanghuoyao.top:9006/rename.exe"]
+        self.update_url = ["http://wanghuoyao.top:9006/main_ui.exe", "http://wanghuoyao.top:9006/auto_install.exe", "http://wanghuoyao.top:9006/rename.exe"]
         self.headers = {'User-Agent': 'UI Update'}
-        self.filename = ['Update_temp.exe','rename_temp.exe', 'filename_temp.txt']
+        self.filename = ['main_ui.exe', 'auto_install.exe','rename_temp.exe', 'filename_temp.txt']      # 缓存文件一直都放在末尾2个
+        self.tempfile_name = self.filename[-2:]    # 所有缓存文件
+        self.checkfile_name = self.filename[:2]     # 每次更新完需要检查md5的文件
+        self.download_path = 'temp'
+        

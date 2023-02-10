@@ -10,6 +10,8 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from settings import Setting
 import requests
 import multitasking
+import os
+from check_file import get_local_file_md5, Checkfile
 
 class Download(QThread):
     file_size = pyqtSignal(float)     # 文件总大小
@@ -34,17 +36,39 @@ class Download(QThread):
     def __init__(self):
         super().__init__()
         self.s = Setting()
-
+        
+    def check_autoinstall_file(self):
+        if not os.path.isfile(self.s.checkfile_name[1]):
+            return False
+        localmd5 = get_local_file_md5(self.s.checkfile_name[1])
+        
+        c = Checkfile()
+        netmd5 = c.get_net_md5(subcommand=f"SELECT `md5` FROM `{self.s.checkfile_name[1].split('.')[0]}_md5`")
+        return localmd5 == netmd5
+    
+    def check_download_dir(self):
+        if not os.path.isdir(self.s.download_path):
+            os.mkdir(self.s.download_path)
+        
     def run(self):
         """下载文件到当前目录"""
         MB = 1 * 1024 ** 2
         each_size = 16 * MB   # 每个分块按16MB进行分块
-        urls = self.s.update_url  # 文件下载地址
         headers = self.s.headers
-        filenames = self.s.filename
+        if not self.check_autoinstall_file():
+            urls = self.s.update_url  # 文件下载地址
+            filenames = self.s.filename
+        else:
+            urls = self.s.update_url.copy()  # 删除install的下载
+            urls.pop(1)
+            filenames = self.s.filename.copy()
+            filenames.pop(1)
+            Setting.checkfile_name = self.s.filename[0]
+            
+        self.check_download_dir()
+        
         for url, filename in zip(urls, filenames):
-
-            with open(filename, 'wb') as f:
+            with open(os.path.join(os.getcwd(), self.s.download_path, filename), 'wb') as f:
                 file_size = self.get_file_size(url=url)
                 self.file_size.emit(
                     float(f'{file_size / 1024 / 1024 :.2f}'))       # 提交文件总大小

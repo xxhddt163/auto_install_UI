@@ -23,14 +23,7 @@ def get_local_file_md5(file_path):
     return m.hexdigest()  # 返回md5对象
 
 
-def get_net_md5(cursor):
-    try:
-        cursor.execute("SELECT `md5` FROM `unzip_md5`")
-        return cursor.fetchall()[0][0]
-    except (AttributeError, pymysql.OperationalError):
-        app = QApplication(sys.argv)
-        QMessageBox().information(None,"程序版本过低","程序版本过低，请联网后重新打开该程序后重试",QMessageBox.Yes)
-        sys.exit(1)
+
 
 
 class Checkfile():
@@ -47,15 +40,37 @@ class Checkfile():
             self.cursor = self.db.cursor()
         except (AttributeError, pymysql.OperationalError):
             app = QApplication(sys.argv)
-            QMessageBox().information(None,"程序版本过低","程序版本过低，请联网后重新打开该程序后重试",QMessageBox.Yes)
+            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请重试",QMessageBox.Yes)
             sys.exit(1)
-    
+            
+    def get_net_md5(self, subcommand="SELECT `md5` FROM `unzip_md5`"):
+        try:
+            self.cursor.execute(subcommand)
+            return self.cursor.fetchall()[0][0]
+        except (AttributeError, pymysql.OperationalError):
+            app = QApplication(sys.argv)
+            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请重试",QMessageBox.Yes)
+            sys.exit(1)
+            
     def check_file(self):
         # local_md5 = get_local_file_md5(sys.argv[0])
         local_md5 = "1"
-        obj_md5 = get_net_md5(self.cursor)
+        obj_md5 = self.get_net_md5()
         return local_md5 == obj_md5
     
+class UpdateInfo(Checkfile):
+    def __init__(self):
+        super().__init__()
+    
+    def get_update_info(self):
+        try:
+            self.cursor.execute("SELECT `updateinfo` FROM `updateinfo`")
+            return self.cursor.fetchall()[0][0].replace('\\n', '\n')        # 数据库中\n会自动改成\\n
+        except (AttributeError, pymysql.OperationalError):
+            app = QApplication(sys.argv)
+            QMessageBox().information(None,"更新信息获取失败","更新信息获取失败请检查网络",QMessageBox.Yes)
+            sys.exit(1)
+        
     
 
 

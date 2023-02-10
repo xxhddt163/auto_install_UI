@@ -10,7 +10,7 @@ from time import strftime
 from settings import Setting
 from mainwindow import *
 from scripts.menu import menu_format, menu_to_file
-from check_file import Checkfile
+from check_file import Checkfile, UpdateInfo
 from show_download_ui import Show_Download_Ui
 from playsound import playsound
 
@@ -55,7 +55,8 @@ class MainWindow(QMainWindow, Ui_mainwindow):
     def pushButton2_clicked(self):
         """按下浏览按钮时的操作
         """
-        playsound(join(getcwd(), 'run_click.wav'))       # 播放音效声音
+        with contextlib.suppress(Exception):        # 防止文件目录存在中文出错
+                playsound(join(getcwd(), 'run_click.wav'))
         _translate = QtCore.QCoreApplication.translate
         self.path = QFileDialog.getExistingDirectory(None, "选择文件夹路径")
         self.path = self.path.replace('/', '\\')
@@ -152,10 +153,11 @@ if __name__ == "__main__":
     s = Setting()
     
     # 如果存在更新留下的缓存文件则删除
-    if isfile(s.filename[1]):
-        remove(s.filename[1])
-    if isfile(s.filename[2]):
-        remove(s.filename[2])
+    
+    for _ in s.tempfile_name:
+        if isfile(_):
+            remove(_)
+    
         
     show = ShowWindow()
     if strftime("%Y%m") == f"{s.year}{s.month}":
@@ -163,7 +165,8 @@ if __name__ == "__main__":
 
     c = Checkfile()         # 检查目标服务器与当前文件的md5值 只要md5值相同 就算程序过期了也能打开
     if c.check_file():      # md5验证通过的情况
-        reply = show.message(title='发现新的程序版本', message='下载更新新版离线版(Yes)，继续以当前在线版运行(No)', button=(
+        updateinfo = UpdateInfo()
+        reply = show.message(title='发现新的程序版本', message=f'下载更新新版离线版(Yes)，继续以当前在线版运行(No)\n\n更新内容:\n{updateinfo.get_update_info()}', button=(
             QMessageBox.Yes, QMessageBox.No))
 
         if reply == QMessageBox.No:
@@ -173,5 +176,7 @@ if __name__ == "__main__":
             show2 = ShowWindow(Show_Download_Ui)
             show2.show_window()
     else:           # 程序版本过低且MD5值与服务器不匹配
+        if isfile('auto_install.zip'):
+            remove('auto_install.zip')
         show.message(title='程序版本过低', message='程序版本过低且无法更新，请联系管理员',
                      button=QMessageBox.Yes)
