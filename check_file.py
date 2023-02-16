@@ -40,7 +40,7 @@ class Checkfile():
             self.cursor = self.db.cursor()
         except (AttributeError, pymysql.OperationalError):
             app = QApplication(sys.argv)
-            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请重试",QMessageBox.Yes)
+            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请检查网络连接后重试",QMessageBox.Yes)
             sys.exit(1)
             
     def get_net_md5(self, subcommand="SELECT `md5` FROM `unzip_md5`"):
@@ -49,7 +49,7 @@ class Checkfile():
             return self.cursor.fetchall()[0][0]
         except (AttributeError, pymysql.OperationalError):
             app = QApplication(sys.argv)
-            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请重试",QMessageBox.Yes)
+            QMessageBox().information(None,"获取MD5值失败","获取MD5值失败,请检查网络连接后重试",QMessageBox.Yes)
             sys.exit(1)
             
     def check_file(self):
