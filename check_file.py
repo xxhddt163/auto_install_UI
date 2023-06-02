@@ -54,7 +54,7 @@ class Checkfile():
             
     def check_file(self):
         # local_md5 = get_local_file_md5(sys.argv[0])
-        local_md5 = "1"
+        local_md5 = "2"
         obj_md5 = self.get_net_md5()
         return local_md5 == obj_md5
     
