@@ -303,7 +303,7 @@ class Ui_mainwindow(object):
             "mainwindow", "Adobe indesign CC2021"))
         self.checkBox_10.setText(_translate("mainwindow", "DirectX9"))
         self.checkBox_17.setText(_translate(
-            "mainwindow", "Office 2013 Professional"))
+            "mainwindow", "Office 2021 专业增强版"))
         self.checkBox_9.setText(_translate("mainwindow", "Net Framework3"))
         self.checkBox_18.setText(_translate("mainwindow", "PhotoShop CS3"))
         self.checkBox_21.setText(_translate("mainwindow", "网易云音乐"))

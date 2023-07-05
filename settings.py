@@ -8,7 +8,7 @@ FilePath: \PYQT\settings.py
 class Setting():
     def __init__(self):
         self.year = "2023"
-        self.month = "01"
+        self.month = "07"
         self.host = "wanghuoyao.top"
         self.user = "root"
         self.port = 9003

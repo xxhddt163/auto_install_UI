@@ -63,7 +63,7 @@ def menu_format(choice_list):
                 "天正建筑T20": "T20",
                 "PhotoShop CS3": "PSCS3",
                 "PhotoShop CC2019": "PSCC2019",
-                "Office 2013 Professional": "OFFICE2013",
+                "Office 2021 专业增强版": "OFFICE2021LTSC",
                 "Premiere CC2020": "PRCC2020",
                 "迅雷11": "Xunlei",
                 "Adobe indesign CC2021": "ID2021",
