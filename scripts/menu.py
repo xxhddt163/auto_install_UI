@@ -35,6 +35,11 @@ def menu_to_file(path, choose):
             if name == 'Winrar':
                 pri.push(name, 47)
                 continue
+            if name == 'SougouPY':
+                pri.push(name, 2)
+                continue
+            if name == 'T20':
+                pri.push(name, 46)
             pri.push(name, 5)
             
         choose = pri.to_list()
@@ -49,18 +54,18 @@ def menu_format(choice_list):
                 "360驱动大师": "360drv",
                 "谷歌浏览器": "Chrome",
                 "腾讯视频": "TXvideo",
-                "爱奇艺(推荐)": "IQIYI",
+                "爱奇艺": "IQIYI",
                 "DirectX9": "DX",
                 "网易云音乐": "163music",
                 "搜狗输入法": "SougouPY",
                 "QQ音乐": "QQmusic",
                 "钉钉": "Dtalk",
-                "酷狗音乐(推荐)": "Kugou",
+                "酷狗音乐": "Kugou",
                 "联想软件商店": "Lensto",
                 "CorelDRAW 2020": "cdr2020",
-                "WPS(推荐)": "WPS",
+                "WPS": "WPS",
                 "After Effects CC2019": "AECC2019",
-                "天正建筑T20": "T20",
+                "天正建筑T20v9": "T20",
                 "PhotoShop CS3": "PSCS3",
                 "PhotoShop CC2019": "PSCC2019",
                 "Office 2021 专业增强版": "OFFICE2021LTSC",

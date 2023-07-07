@@ -19,7 +19,6 @@ class MainWindow(QMainWindow, Ui_mainwindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.checkBox_26.setEnabled(False)      # 暂时关闭CDR
         self.pushButton_2.clicked.connect(self.pushButton2_clicked)  # 按下浏览按钮
         self.pushButton.clicked.connect(self.pushButton_clicked)    # 按下解压按钮
         self.radioButton_4.clicked.connect(self.radioButton_4_true)  # 按下上次选择按钮
@@ -27,9 +26,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         self.choose = []
         self.last_choose = []
         self.menu_dir = {'Wechat': '微信', 'NF3': 'Net Framework3', '360drv': '360驱动大师', 'Chrome': '谷歌浏览器', 'TXvideo': '腾讯视频',
-                         'IQIYI': '爱奇艺(推荐)', 'DX': 'DirectX9', '163music': '网易云音乐', 'SougouPY': '搜狗输入法', 'QQmusic': 'QQ音乐',
-                         'Dtalk': '钉钉', 'Kugou': '酷狗音乐(推荐)', 'Lensto': '联想软件商店', 'cdr2020': 'CorelDRAW 2020', 'WPS': 'WPS(推荐)',
-                         'AECC2019': 'After Effects CC2019', 'T20': '天正建筑T20', 'PSCS3': 'PhotoShop CS3', 'PSCC2019': 'PhotoShop CC2019',
+                         'IQIYI': '爱奇艺', 'DX': 'DirectX9', '163music': '网易云音乐', 'SougouPY': '搜狗输入法', 'QQmusic': 'QQ音乐',
+                         'Dtalk': '钉钉', 'Kugou': '酷狗音乐', 'Lensto': '联想软件商店', 'cdr2020': 'CorelDRAW 2020', 'WPS': 'WPS',
+                         'AECC2019': 'After Effects CC2019', 'T20': '天正建筑T20v9', 'PSCS3': 'PhotoShop CS3', 'PSCC2019': 'PhotoShop CC2019',
                          'OFFICE2021LTSC': 'Office 2021 专业增强版', 'PRCC2020': 'Premiere CC2020', 'Xunlei': '迅雷11', 'ID2021': 'Adobe indesign CC2021',
                          'baidu_Netdisk': '百度网盘', 'AI2021': 'Adobe illustrator 2021', 'DC2021': 'Adobe Acrobat DC 2021'}
 
