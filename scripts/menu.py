@@ -40,6 +40,7 @@ def menu_to_file(path, choose):
                 continue
             if name == 'T20':
                 pri.push(name, 46)
+                continue
             pri.push(name, 5)
             
         choose = pri.to_list()
