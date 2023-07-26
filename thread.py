@@ -70,6 +70,7 @@ class New_Thread(QThread):  # 用作执行多线程的类 需要继承QThread类
 
         zip_file.extract('auto_install.exe', self.path)
         zip_file.extract('app_pkg/sound/run_click.wav', self.path)
+        zip_file.extract('app_pkg/sound/finish.wav', self.path)
         if not os.path.isfile(os.path.join(self.path, 'setup.ico')):
             zip_file.extract('setup.ico', self.path)
         win32api.SetFileAttributes(os.path.join(

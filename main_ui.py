@@ -13,6 +13,7 @@ from scripts.menu import menu_format, menu_to_file
 from check_file import Checkfile, UpdateInfo
 from show_download_ui import Show_Download_Ui
 from playsound import playsound
+import threading
 
 
 class MainWindow(QMainWindow, Ui_mainwindow):
@@ -55,7 +56,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
         """按下浏览按钮时的操作
         """
         with contextlib.suppress(Exception):        # 防止文件目录存在中文出错
-                playsound(join(getcwd(), 'run_click.wav'))
+            sound = threading.Thread(target=playsound, args=(join(getcwd(), 'run_click.wav'),))
+            sound.start()
+                
         _translate = QtCore.QCoreApplication.translate
         self.path = QFileDialog.getExistingDirectory(None, "选择文件夹路径")
         self.path = self.path.replace('/', '\\')
@@ -122,7 +125,9 @@ class MainWindow(QMainWindow, Ui_mainwindow):
             win32api.SetFileAttributes(
                 'last.txt', win32con.FILE_ATTRIBUTE_HIDDEN)      # 隐藏last.txt文件
             with contextlib.suppress(Exception):        # 防止文件目录存在中文出错
-                playsound(join(getcwd(), 'run_click.wav'))       # 播放音效声音
+                sound = threading.Thread(target=playsound, args=(join(getcwd(), 'run_click.wav'),))
+                sound.start()
+                # playsound(join(getcwd(), 'run_click.wav'))       # 播放音效声音
             self.check_directory()
             menu_to_file(path=self.path, choose=menu_format(self.choose))
             self.initialValue = len(self.choose)  # 获取用户初始选择的程序数用做进度计算
