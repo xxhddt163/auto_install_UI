@@ -75,4 +75,4 @@ class UpdateInfo(Checkfile):
 
 
 if __name__ == '__main__':
-    print(get_local_file_md5('D:\python-projects\PYQT\dist\main_ui.exe'))
+    print(get_local_file_md5(r'E:\桌面\main_ui.exe'))

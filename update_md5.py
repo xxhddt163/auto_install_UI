@@ -3,7 +3,7 @@ import pymysql, hashlib
 class UpdateMD5():
     """服务器上每天更新md5脚本"""
     def __init__(self):
-        self.db = pymysql.connect(host = "wanghuoyao.top",
+        self.db = pymysql.connect(host = "liuzidan.top",
                         user = "root",
                         password = ".,?!920414",
                         database = "test",

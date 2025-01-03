@@ -267,7 +267,7 @@ class Ui_mainwindow(object):
     def retranslateUi(self, mainwindow):
         _translate = QtCore.QCoreApplication.translate
         mainwindow.setWindowTitle(_translate(
-            "mainwindow", "安装文件解压器 v3.2 by:冼叔叔"))
+            "mainwindow", "安装文件解压器 v3.3 by:阿海"))
         mainwindow.setWindowIcon(QIcon('1.ico'))
         self.label.setText(_translate("mainwindow", "解压路径:"))
         self.lineEdit.setText(_translate("mainwindow", self.path))
