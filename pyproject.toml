@@ -1,5 +1,5 @@
 [project]
-name = "安装程序解压包"
+name = "Unzip"
 version = "3.1.0"
 description = "负责解压安装程序并生成ini文件"
 readme = "README.md"
