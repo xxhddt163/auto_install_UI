@@ -1,0 +1,16 @@
+[project]
+name = "安装程序解压包"
+version = "3.1.0"
+description = "负责解压安装程序并生成ini文件"
+readme = "README.md"
+requires-python = ">=3.7.9"
+dependencies = [
+    "pywin32==301",
+    "pyqt5-qt5<=5.15.2",
+    "PyQt5==5.15.4",
+    "PyQt5-sip==12.9.0",
+    "pymysql==1.0.2",
+    "requests==2.28.1",
+    "multitasking==0.0.11",
+    "playsound==1.2.2",
+]
